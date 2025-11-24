@@ -1,8 +1,8 @@
-# Dependencias mínimas optimizadas
+# Dependencias mínimas optimizadas para CPU
 fastapi==0.109.0
 uvicorn==0.27.0
 pydantic==2.6.0
-torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu
 transformers==4.38.0
 sentencepiece==0.1.99
 protobuf
+# PyTorch CPU-only será instalado en el Dockerfile

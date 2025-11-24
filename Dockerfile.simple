@@ -12,11 +12,13 @@ WORKDIR /app
 # Copiar solo requirements primero (para cache de Docker)
 COPY requirements-simple.txt requirements.txt
 
-# Instalar dependencias sin caché y limpiar
-RUN pip install --no-cache-dir -r requirements.txt \
+# Instalar PyTorch CPU-only primero (mucho más ligero)
+RUN pip install --no-cache-dir torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir -r requirements.txt \
     && rm -rf /root/.cache/pip \
     && find /usr/local/lib/python3.11 -name '*.pyc' -delete \
-    && find /usr/local/lib/python3.11 -name '__pycache__' -delete
+    && find /usr/local/lib/python3.11 -name '__pycache__' -delete \
+    && find /usr/local/lib/python3.11 -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
 
 # Copiar solo archivos necesarios
 COPY app_simple.py app.py
