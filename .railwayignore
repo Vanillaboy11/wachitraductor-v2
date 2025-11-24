@@ -1,0 +1,41 @@
+# No subir a Railway
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+
+# Archivos de desarrollo
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Archivos grandes innecesarios
+checkpoint-2024/
+*.md
+!README.md
+
+# Testing
+test_*.py
+*.ipynb
+
+# Archivos de configuración local
+.env
+.venv/
+venv/
+
+# Archivos de build
+dist/
+build/
+
+# ONNX (si existen y no los usas)
+onnx_models/
+convert_to_onnx.py
+
+# Scripts de desarrollo
+setup.ps1
+install_dependencies.bat
