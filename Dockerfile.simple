@@ -26,6 +26,9 @@ COPY config.json generation_config.json ./
 COPY source.spm target.spm tokenizer_config.json special_tokens_map.json vocab.json ./
 COPY model.safetensors ./
 
+# Copiar script de inicio
+COPY start.py ./
+
 # Exponer puerto
 EXPOSE 8000
 
@@ -36,5 +39,5 @@ ENV PYTHONUNBUFFERED=1 \
     PORT=8000 \
     OMP_NUM_THREADS=2
 
-# Comando para ejecutar la aplicación
-CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1"]
+# Comando para ejecutar la aplicación usando el script de inicio
+CMD ["python", "start.py"]
