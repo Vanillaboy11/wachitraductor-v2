@@ -1,9 +1,10 @@
 # Usar imagen base más ligera
 FROM python:3.11-slim
 
-# Force rebuild - updated 2025-11-24 v2
-# Instalar dependencias del sistema y limpiar en una sola capa
+# Force rebuild - updated 2025-11-24 v3
+# Instalar dependencias del sistema y unzip
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    unzip \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -25,7 +26,10 @@ RUN pip install --no-cache-dir torch==2.2.0 --index-url https://download.pytorch
 COPY app_simple.py app.py
 COPY config.json generation_config.json ./
 COPY source.spm target.spm tokenizer_config.json special_tokens_map.json vocab.json ./
-COPY model.safetensors ./
+COPY model.safetensors.zip ./
+
+# Descomprimir modelo
+RUN unzip model.safetensors.zip && rm model.safetensors.zip
 
 # Copiar script de inicio
 COPY start.py ./
