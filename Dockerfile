@@ -1,6 +1,7 @@
 # Usar imagen base más ligera
 FROM python:3.11-slim
 
+# Force rebuild - updated 2025-11-24
 # Instalar dependencias del sistema y limpiar en una sola capa
 RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
