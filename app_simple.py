@@ -42,13 +42,13 @@ class TranslationResponse(BaseModel):
     source_language: str = "en"
     target_language: str = "es"
 
-def load_models(model_dir: str = "."):
-    """Carga el modelo y tokenizer optimizado"""
+def load_models(model_dir: str = "Helsinki-NLP/opus-mt-en-es"):
+    """Carga el modelo y tokenizer optimizado desde HuggingFace Hub"""
     global model, tokenizer
     
     logger.info(f"Cargando modelo desde {model_dir}...")
     
-    # Cargar modelo y tokenizer
+    # Cargar modelo y tokenizer desde HuggingFace Hub
     tokenizer = MarianTokenizer.from_pretrained(model_dir)
     model = MarianMTModel.from_pretrained(model_dir)
     

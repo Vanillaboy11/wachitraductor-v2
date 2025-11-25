@@ -22,14 +22,13 @@ RUN pip install --no-cache-dir torch==2.2.0 --index-url https://download.pytorch
     && find /usr/local/lib/python3.11 -name '__pycache__' -delete \
     && find /usr/local/lib/python3.11 -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
 
-# Copiar solo archivos necesarios
+# Copiar solo archivos necesarios (sin el modelo)
 COPY app_simple.py app.py
 COPY config.json generation_config.json ./
 COPY source.spm target.spm tokenizer_config.json special_tokens_map.json vocab.json ./
-COPY model.safetensors.zip ./
 
-# Descomprimir modelo
-RUN unzip model.safetensors.zip && rm model.safetensors.zip
+# Descargar modelo desde HuggingFace Hub en runtime (se descargará automáticamente)
+# El modelo se descarga cuando la app inicia usando from_pretrained con modelo de HF
 
 # Copiar script de inicio
 COPY start.py ./
