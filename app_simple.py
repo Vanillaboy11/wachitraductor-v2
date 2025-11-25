@@ -9,6 +9,7 @@ import torch
 from transformers import MarianMTModel, MarianTokenizer
 from pathlib import Path
 import logging
+import os
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO)
@@ -42,15 +43,21 @@ class TranslationResponse(BaseModel):
     source_language: str = "en"
     target_language: str = "es"
 
-def load_models(model_dir: str = "Helsinki-NLP/opus-mt-en-es"):
+def load_models(model_dir: str = None):
     """Carga el modelo y tokenizer optimizado desde HuggingFace Hub"""
     global model, tokenizer
     
+    # Obtener configuración desde variables de entorno
+    if model_dir is None:
+        model_dir = os.getenv("HF_MODEL_ID", "Helsinki-NLP/opus-mt-en-es")
+    
+    hf_token = os.getenv("HF_TOKEN", None)
+    
     logger.info(f"Cargando modelo desde {model_dir}...")
     
-    # Cargar modelo y tokenizer desde HuggingFace Hub
-    tokenizer = MarianTokenizer.from_pretrained(model_dir)
-    model = MarianMTModel.from_pretrained(model_dir)
+    # Cargar modelo y tokenizer desde HuggingFace Hub (con token si es privado)
+    tokenizer = MarianTokenizer.from_pretrained(model_dir, token=hf_token)
+    model = MarianMTModel.from_pretrained(model_dir, token=hf_token)
     
     # Optimizaciones para móviles
     model.eval()  # Modo evaluación
